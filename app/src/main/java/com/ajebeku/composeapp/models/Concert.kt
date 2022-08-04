@@ -2,12 +2,11 @@ package com.ajebeku.composeapp.models
 
 import com.google.gson.annotations.SerializedName
 
-
-data class Concerts(
+data class Concert(
     val id: Int,
     val name: String? = null,
-    @SerializedName("children") val children: ArrayList<Concerts> = arrayListOf(),
-    val events: ArrayList<Event> = arrayListOf()
+    @SerializedName("children") val children: List<Concert> = arrayListOf(),
+    val events: List<Event> = arrayListOf()
 )
 
 data class Event(
