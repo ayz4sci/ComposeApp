@@ -19,13 +19,11 @@ class EventViewModel(private val concertRepository: ConcertRepositoryApi) : View
         val searchByCity = _uiState.value.searchByCity
         val searchByPrice = _uiState.value.searchByPrice.toIntOrNull()
 
-        var events = concertRepository.fetchConcerts().extractEvents()
-        if (searchByCity.isNotBlank()) {
-            events = events.filter { it.city?.contains(searchByCity, true) == true }
-        }
-        searchByPrice?.let {
-            events = events.filter { it.price != null && it.price <= searchByPrice }
-        }
+        val events = concertRepository.fetchConcerts().extractEvents()
+            .filter {
+                (searchByCity.isEmpty() || it.city?.contains(searchByCity, true) == true)
+                && (searchByPrice == null || (it.price ?: 0) <= searchByPrice)
+            }
 
         newState(events)
     }
